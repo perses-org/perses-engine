@@ -1,0 +1,28 @@
+{
+  "name": "perses",
+  "version": "1.0.0",
+  "description": "Perses framework for Mobile Application Performance  Analysis",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perses-org/perses.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/perses-org/perses/issues"
+  },
+  "bin": {
+    "perses": "./index.js"
+  },
+  "homepage": "https://github.com/perses-org/perses#readme",
+  "dependencies": {
+    "commander": "^5.1.0",
+    "js-yaml": "^3.13.1",
+    "log-timestamp": "^0.3.0",
+    "mustache": "^4.0.1"
+  }
+}
