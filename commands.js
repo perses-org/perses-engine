@@ -21,12 +21,18 @@ const launchTest = (configFileName, credentialsFileName, testId) => {
 
     // Read config parameters
     var parameters =  yaml.load(fs.readFileSync(configFileName, "utf8"));
+    // Read config parameters
+    var credentials =  yaml.load(fs.readFileSync(credentialsFileName, "utf8"));
     
     parameters.testId = testId;
 
     console.log("--- PARAMETERS ---");
     console.log(yaml.dump(parameters));
     console.log("------------------");
+
+    for (let [key, value] of Object.entries(credentials)) {
+      parameters[key] = value;
+    }
 
     var output = mustache.render(terraformTemplate, parameters);
 
