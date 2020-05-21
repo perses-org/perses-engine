@@ -1,26 +1,13 @@
-# perses
+# Perses
 Perses framework for Mobile Application Performance  Analysis
 
 
-## Usage
-```
-Usage: index <config.yaml> <credentials.yaml> <testId>
-```
-Example:
-```
-node index tests/assets/configExample.yaml tests/assets/credentialsExample.yaml myTest
+# Usage
 
+Usage: index -a <action> -g <config.yaml> -c <credentials.yaml> -p <projectName>
 
-```
+    Where : action = setup | launch | destroy 
 
-
-# (future) Usage
-```
-Usage: index -a <action> -g <config.yaml> -c <credentials.yaml> -i <testId>
-
-    Where : action = setup | launch | results | destroy 
-
--a setup tests/assets/configExample.yaml tests/assets/credentialsExample.yaml myTest
--a launch myTest
--a results myTest
--a destroy myTest
+-a setup -g tests/assets/configExample.yaml -c tests/assets/credentialsExample.yaml projectTest
+-a launch projectName
+-a destroy projectName
