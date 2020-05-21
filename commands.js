@@ -128,7 +128,7 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
 
         fs.writeFileSync('./projects/'+projectName+'/variables.tf', output, 'utf8');
 
-        fs.copy('./terraform-template/terraform', './projects/'+projectName+'/', function (err) {
+        fs.copy('./core/terraform', './projects/'+projectName+'/', function (err) {
           if (err) return console.error(err)
         });
 

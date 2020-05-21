@@ -105,4 +105,4 @@ dist
 
 config-test
 projects
-terraform
+terraform-test
