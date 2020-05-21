@@ -100,7 +100,7 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
   console.log("  - Credentials File: '" + credentialsFileName + "'");
   console.log("  - ProjectName: '" + projectName + "'");
 
-  if (fs.existsSync('./projects/'+projectName)) 
+  if (fs.existsSync(path.join(__dirname,'projects',projectName))) 
     console.log("he project already exists, choose another name");
     else{
 
@@ -121,32 +121,38 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
         var output = mustache.render(terraformTemplate, parameters);
 
 
-
+        console.log("creating projects folder...");
         fs.mkdir('projects/'+projectName, { recursive: true }, (err) => {
-          if (err) throw err;
-        });
-
-        fs.writeFileSync('./projects/'+projectName+'/variables.tf', output, 'utf8');
-
-        fs.copy('./core/terraform', './projects/'+projectName+'/', function (err) {
-          if (err) return console.error(err)
-        });
-
-        try {
-            const ls = spawn('cd projects & cd '+projectName+' & terraform init & terraform plan ', { shell : true });
-                        
-                ls.stdout.on('data', (data) => {
-                  console.log(`stdout: ${data}`);
-                });
-                  
-                ls.stderr.on('data', (data) => {
-                  console.log(`stderr: ${data}`);
-                });
           
+          if (err){
+            console.log("Error: "+err);
+            throw err;
+          }else {
+            console.log("Ok");
+            fs.writeFileSync('./projects/'+projectName+'/variables.tf', output, 'utf8');
+
+            fs.copy('./core/terraform', './projects/'+projectName+'/', function (err) {
+              if (err) return console.error(err)
+            });
+    
+            try {
+                const ls = spawn('cd projects && cd '+projectName+' && terraform init && terraform plan ', { shell : true });
+                            
+                    ls.stdout.on('data', (data) => {
+                      console.log(`stdout: ${data}`);
+                    });
+                      
+                    ls.stderr.on('data', (data) => {
+                      console.log(`stderr: ${data}`);
+                    });
               
+                  
             } catch (err){
-              console.error(err);
+                  console.error(err);
             };
+          }
+        });
+
       }
 }
 
@@ -156,13 +162,15 @@ exports.launchPerses = function(projectName){
     if (fs.existsSync('./projects/'+projectName)) {
       console.log("Launch...");
       try {
-        const ls = spawn('cd projects & cd '+projectName+' & terraform apply -auto-approve', { shell : true });
+        const terraform = spawn('terraform apply -auto-approve'
+                                , { shell : true }
+                                , {cwd: path.join(__dirname,'projects',projectName)});
                     
-            ls.stdout.on('data', (data) => {
+            terraform.stdout.on('data', (data) => {
               console.log(`stdout: ${data}`);
             });
               
-            ls.stderr.on('data', (data) => {
+            terraform.stderr.on('data', (data) => {
               console.log(`stderr: ${data}`);
             });
       
@@ -184,7 +192,7 @@ exports.launchPerses = function(projectName){
   
 
     if (fs.existsSync('./projects/'+projectName)) {
-      console.log("Destroy...");
+      console.log("Get Results...");
       try {
           const ls = spawn('scp -i ${(var.key_path)} -r ${(var.ec2_username)}@${(self.public_ip)}:logs/ projects/${(var.project_name)}', { shell : true });
                       
@@ -213,7 +221,7 @@ exports.destroyPerses = function(projectName){
   if (fs.existsSync('./projects/'+projectName)) {
     console.log("Destroy...");
     try {
-        const ls = spawn('cd projects & cd '+projectName+' & terraform destroy -auto-approve', { shell : true });
+        const ls = spawn('cd projects && cd '+projectName+' && terraform destroy -auto-approve', { shell : true });
                     
             ls.stdout.on('data', (data) => {
               console.log(`stdout: ${data}`);
