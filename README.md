@@ -11,7 +11,8 @@ Download and install terraform -> https://www.terraform.io/downloads.html
 
     git clone https://github.com/perses-org/perses.git
 
-Into perses project:
+Into perses project
+
     npm install
 
 
