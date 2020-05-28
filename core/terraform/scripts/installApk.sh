@@ -19,6 +19,7 @@ sleep $2
 			var=$(($i+1))
 			adb connect 172.17.0.$var
 			adb -s 172.17.0.$var install ./apk/app.apk
+			echo "Install apk on android-"$i
 		done
 	else
 		echo "Introduce un numero mayor que 0"

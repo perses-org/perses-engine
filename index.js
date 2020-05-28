@@ -26,11 +26,9 @@ program
             console.log('credentials (-c) and configuration project (-g) file path is required')
           else
             perses.setupPerses(options.credentialsFileName, options.configFileName, options.projectName)
-        
         break;
       case 'launch':
           perses.launchPerses(options.projectName)
-      
         break;
           
       case 'destroy':
