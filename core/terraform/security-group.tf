@@ -1,6 +1,6 @@
 # Security group
 resource "aws_security_group" "virtual_environment_perses" {
-  name = "${var.author}_sg_terraform"
+  name = "${var.author}_perse_${var.project_name}"
 
   lifecycle {
     create_before_destroy = true
