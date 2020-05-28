@@ -62,7 +62,7 @@ resource "aws_instance" "virtual_environment_perses" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = "scp -i ${(var.key_path)} -r ${(var.ec2_username)}@${(self.public_ip)}:logs/ projects/${(var.project_name)}"
+    command = "scp -i ${(var.key_path)} -r ${(var.ec2_username)}@${(self.public_ip)}:logs/ projects/${(var.project_name)}/"
   }
 
 
