@@ -101,7 +101,7 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
   console.log("  - ProjectName: '" + projectName + "'");
 
   if (fs.existsSync(path.join(__dirname,'projects',projectName))) 
-    console.log("he project already exists, choose another name");
+    console.log("The project already exists, choose another name");
     else{
 
         // Read config parameters
@@ -121,35 +121,35 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
         var output = mustache.render(terraformTemplate, parameters);
 
 
-        console.log("creating projects folder...");
-        fs.mkdir('projects/'+projectName, { recursive: true }, (err) => {
+        console.log("Creating projects folder...");
+        fs.mkdir(path.join(__dirname,'projects',projectName), { recursive: true }, (err) => {
           
           if (err){
             console.log("Error: "+err);
             throw err;
           }else {
-            console.log("Ok");
             fs.writeFileSync('./projects/'+projectName+'/variables.tf', output, 'utf8');
 
-            fs.copy('./core/terraform', './projects/'+projectName+'/', function (err) {
-              if (err) return console.error(err)
+            fs.copy(path.join(__dirname,'core','terraform'), path.join(__dirname,'projects',projectName), function (err) {
+              if (err) 
+                return console.log(err)
+              else{
+                try {
+                      const ls = spawn('terraform init && terraform plan ', { shell : true , cwd: path.join(__dirname,'projects',projectName)});
+                                  
+                      ls.stdout.on('data', (data) => {
+                        console.log(`stdout: ${data}`);
+                      });
+                        
+                      ls.stderr.on('data', (data) => {
+                        console.log(`stderr: ${data}`);
+                      });
+                
+                } catch (err){
+                      console.error(err);
+                };
+              }
             });
-    
-            try {
-                const ls = spawn('cd projects && cd '+projectName+' && terraform init && terraform plan ', { shell : true });
-                            
-                    ls.stdout.on('data', (data) => {
-                      console.log(`stdout: ${data}`);
-                    });
-                      
-                    ls.stderr.on('data', (data) => {
-                      console.log(`stderr: ${data}`);
-                    });
-              
-                  
-            } catch (err){
-                  console.error(err);
-            };
           }
         });
 
@@ -159,13 +159,11 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
 exports.launchPerses = function(projectName){
   
   console.log("  - ProjectName: '" + projectName + "'");
-    if (fs.existsSync('./projects/'+projectName)) {
+    if (fs.existsSync(path.join(__dirname,'projects',projectName))) {
       console.log("Launch...");
       try {
-        const terraform = spawn('terraform apply -auto-approve'
-                                , { shell : true }
-                                , {cwd: path.join(__dirname,'projects',projectName)});
-                    
+            const terraform = spawn('terraform apply -auto-approve', { shell : true , cwd: path.join(__dirname,'projects',projectName)});
+                        
             terraform.stdout.on('data', (data) => {
               console.log(`stdout: ${data}`);
             });
@@ -174,7 +172,6 @@ exports.launchPerses = function(projectName){
               console.log(`stderr: ${data}`);
             });
       
-          
         } catch (err){
           console.error(err);
         };
@@ -184,52 +181,23 @@ exports.launchPerses = function(projectName){
   };
 
   
-  
-
-
-
-  exports.getResultsPerses = function(projectName, credentialsFileName){
-  
-
-    if (fs.existsSync('./projects/'+projectName)) {
-      console.log("Get Results...");
-      try {
-          const ls = spawn('scp -i ${(var.key_path)} -r ${(var.ec2_username)}@${(self.public_ip)}:logs/ projects/${(var.project_name)}', { shell : true });
-                      
-              ls.stdout.on('data', (data) => {
-                console.log(`stdout: ${data}`);
-              });
-                
-              ls.stderr.on('data', (data) => {
-                console.log(`stderr: ${data}`);
-              });
-        
-            
-          } catch (err){
-            console.error(err);
-          };
-    }else
-      console.log("The project does not exist")
-    
-   
-  };
 
 
 exports.destroyPerses = function(projectName){
   
 
-  if (fs.existsSync('./projects/'+projectName)) {
+  if (fs.existsSync(path.join(__dirname,'projects',projectName))) {
     console.log("Destroy...");
     try {
-        const ls = spawn('cd projects && cd '+projectName+' && terraform destroy -auto-approve', { shell : true });
-                    
-            ls.stdout.on('data', (data) => {
-              console.log(`stdout: ${data}`);
-            });
-              
-            ls.stderr.on('data', (data) => {
-              console.log(`stderr: ${data}`);
-            });
+          const terraform = spawn('terraform destroy -auto-approve', { shell : true , cwd: path.join(__dirname,'projects',projectName)});
+                      
+          terraform.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+          });
+            
+          terraform.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+          });
       
           
         } catch (err){
