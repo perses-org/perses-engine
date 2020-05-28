@@ -9,7 +9,7 @@ Download and install nodejs-> https://nodejs.org/en/download/
 
 Download and install terraform -> https://www.terraform.io/downloads.html
 
-git clone https://github.com/perses-org/perses.git
+    git clone https://github.com/perses-org/perses.git
 
 Into perses project, execute 'npm install' to installnode packages.
 
@@ -22,12 +22,12 @@ Usage: node index -a action -g <config.yaml> -c <credentials.yaml> -n projectNam
 
 ### Setup project
 
--a setup -g tests/assets/configExample.yaml -c tests/assets/credentialsExample.yaml -n projectName
+    -a setup -g tests/assets/configExample.yaml -c tests/assets/credentialsExample.yaml -n projectName
 
 Copy apk from tests\assets\app-debub.apk to project folder projects/projectName/apk/
 
 ### Launch project
--a launch projectName
+    -a launch projectName
 
 ### Destroy project
--a destroy projectName
+    -a destroy projectName
