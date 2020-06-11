@@ -11,7 +11,7 @@ then
 		var2=$(($i-1))
 		adb connect 172.17.0.$var
 		adb -s 172.17.0.$var shell monkey -p $2 -c android.intent.category.LAUNCHER 1
-		adb -s 172.17.0.$var shell nohup logcat $2:D > ./logs/log-android$i.txt &
+		#gitadb -s 172.17.0.$var shell nohup logcat $2:D > ./logs/log-android$i.txt &
 		echo "Execute apk on android-"$i
 
 	done
@@ -22,7 +22,7 @@ then
 		var2=$(($i-1))
 		adb connect 172.17.0.$var
 		adb -s 172.17.0.$var shell monkey -p $2 -c android.intent.category.LAUNCHER 1
-		adb -s 172.17.0.$var shell nohup logcat $2:D > ./logs/log-android$i.txt &
+		adb -s 172.17.0.$var logcat $2:D | tee ./logs/log-android$i.txt 2>&1 > /dev/null &
 		echo "Execute apk on android-"$i
 
 	done
