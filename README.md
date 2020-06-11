@@ -15,6 +15,18 @@ Into perses project
 
     npm install
 
+# Configure Test
+
+Configure test/credentialExample.yaml
+    - Access Key
+    - Secret Key
+    - Key '.pem' absolute path
+    - Key name
+
+Configure test/configExample.yaml 
+    - Author
+    - Region (if necessary)
+    - Apk absolute path (the Apk test is in 'test' folder )
 
 # Usage
 
@@ -24,9 +36,7 @@ Usage: node index -a action -g <config.yaml> -c <credentials.yaml> -n projectNam
 
 ### Setup project
 
-    -a setup -g tests/assets/configExample.yaml -c tests/assets/credentialsExample.yaml -n projectName
-
-Copy apk from tests\assets\app-debub.apk to project folder projects/projectName/apk/
+    -a setup -g test/configExample.yaml -c test/credentialsExample.yaml -n projectName
 
 ### Launch project
     -a launch projectName

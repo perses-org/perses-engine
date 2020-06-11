@@ -1,6 +1,6 @@
 # Security group
 resource "aws_security_group" "virtual_environment_perses" {
-  name = "${var.author}_perse_${var.project_name}"
+  name = "${var.author}_perses_${var.project_name}"
 
   lifecycle {
     create_before_destroy = true

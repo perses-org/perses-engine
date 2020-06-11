@@ -1,0 +1,51 @@
+############## PROJECT CONFIGURATION ##############
+
+#Author: Name of the operator. Used as a prefix to avoid name collision on.
+author: "author1"
+
+
+
+######### EC2 Configuration #########
+
+#Instance AWS type: Only compatible with machines that support kvm virtualization -> https://help.ubuntu.com/community/KVM/Installation.
+instance_type: "c5.metal"
+
+#AMI ID: We recommend Ubuntu "ami-035966e8adab4aaad".
+ami_id: ami-035966e8adab4aaad
+
+#EC2 Username: User name to log in to EC2 by SSH (with the previously recommended ami is "ubuntu").
+ec2_username: "ubuntu"
+
+#AWS Region.
+region: "eu-west-1"
+
+#Volume size (in GB).
+volume_size: "20"
+
+
+
+######### Environment Configuration #########
+
+#APK path
+apk_path: " "
+
+#Numbers of Android devices to deploy
+number_devices: "2"
+
+#Maximum CPU: maximum amount of available CPU resources each device can use 
+#(We recommend a minimum of 1.5)
+cpu_devices: "1.5"
+
+#Maximum RAM:  maximum amount of memory each device can use 
+#(We recommend a minimum of 3g '3GB').
+ram_devices: "3g"
+
+#Android version to use (6 to 10).
+android_version: "9"
+
+#Application Id of Android App (can find it in the 'build.graddle' file of the application).
+application_id: "com.spilab.heatmapv3"
+
+#Time to wait for the deployment of Android devices (1m '1 minute', 1h '1 hour')
+#For example, for deploy 50 devices, wait 20m '20 minutes'
+time_wait: "2m"

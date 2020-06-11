@@ -33,8 +33,8 @@ resource "aws_instance" "virtual_environment_perses" {
   }
 
   provisioner "file" {
-    source      = "./apk/"
-    destination = "./apk/"
+    source      = var.apk_path
+    destination = "./apk/app.apk"
   }
 
 
@@ -44,10 +44,7 @@ resource "aws_instance" "virtual_environment_perses" {
       "sudo apt --assume-yes install docker.io",
       "sudo systemctl start docker",
       "sudo systemctl enable docker",
-      "sudo apt-get --assume-yes install android-tools-adb android-tools-fastboot",
-      "cd ./apk",
-      "mv *.apk app.apk",
-      "cd .."
+      "sudo apt-get --assume-yes install android-tools-adb android-tools-fastboot"
     ]
   }
 
@@ -62,7 +59,7 @@ resource "aws_instance" "virtual_environment_perses" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = "scp -i ${(var.key_path)} -r ${(var.ec2_username)}@${(self.public_ip)}:logs/ projects/${(var.project_name)}/"
+    command = "mkdir logs && scp -i ${(var.key_path)} -r ${(var.ec2_username)}@${(self.public_ip)}:logs/ logs/"
   }
 
 

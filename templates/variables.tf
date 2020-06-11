@@ -74,6 +74,12 @@ variable "volume" {
   default     = "{{volume_size}}"
 }
 
+variable "apk_path" {
+  description = "Apk path for testing"
+  type        = string
+  default     = "{{{apk_path}}}"
+}
+
 
 variable "number_devices"{
   description = "Numbers of Android devices to deploy."
