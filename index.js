@@ -30,13 +30,17 @@ program
       case 'launch':
           perses.launchPerses(options.projectName)
         break;
+
+        case 'tests':
+          perses.runTests(options.projectName)
+        break;
           
       case 'destroy':
           perses.destroyPerses(options.projectName)
         break;
             
       default:
-          console.log('Incorrect action! => setup | launch | destroy')
+          console.log('Incorrect action! => setup | launch | tests | destroy')
 
 
 

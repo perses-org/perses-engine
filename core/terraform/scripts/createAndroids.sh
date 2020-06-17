@@ -3,7 +3,7 @@
 
 # $1: numero de dispositivos
 # $2: version Android (6 al 10)
-
+echo "Docker: Create containers..."
 
 if [ $# -eq 4 ] 
 then
@@ -14,7 +14,7 @@ then
 		then
 			for i in $(seq 1 $1); do
 				var=$(($i+6000))
-				echo "create containeer" $var
+				echo "Create container in port" $var
 				sudo docker create --privileged  --cpus="$3" --memory="$4"  -p  $var:6080 -e DEVICE="Samsung Galaxy S6" --name android-$i budtmo/docker-android-x86-$2.0
 			done
 		else
@@ -27,3 +27,5 @@ then
 else
 	echo "Enter an two parameters 1: number of devices, 2: Android version (6 to 10), 3: CPU for container, 4: RAM for container"
 fi
+
+echo "Docker: Finish create containers"

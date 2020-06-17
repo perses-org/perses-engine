@@ -11,7 +11,9 @@ const exec = util.promisify(require('child_process').exec);
 const {spawn}  = require('child_process');
 
 
-const terraformTemplate = fs.readFileSync(path.join(__dirname, './templates/variables.tf'), "utf8");
+const terraformTemplate = fs.readFileSync(path.join(__dirname, './templates/variables.mustache'), "utf8");
+const testTemplate = fs.readFileSync(path.join(__dirname, './templates/runTests.mustache'), "utf8");
+const logTemplate = fs.readFileSync(path.join(__dirname, './templates/filterLogs.mustache'), "utf8");
 
 exports.setupPerses = function(credentialsFileName, configFileName, projectName){
   console.log("  - Config File: '" + configFileName + "'");
@@ -38,6 +40,9 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
 
         var output = mustache.render(terraformTemplate, parameters);
 
+        var outputTest = mustache.render(testTemplate, parameters);
+        
+        var outputLog = mustache.render(logTemplate, parameters);
 
         console.log("Creating projects folder...");
         fs.mkdir(path.join(__dirname,'projects',projectName), { recursive: true }, (err) => {
@@ -46,13 +51,23 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
             console.log("Error: "+err);
             throw err;
           }else {
-            fs.writeFileSync('./projects/'+projectName+'/variables.tf', output, 'utf8');
+
+           
+            fs.writeFileSync(path.join(__dirname,'projects',projectName,'variables.tf'), output, 'utf8');
+
+            fs.writeFileSync(path.join(__dirname,'projects',projectName,'filterLogs.js'), outputLog, 'utf8');
+
+
 
             fs.copy(path.join(__dirname,'core','terraform'), path.join(__dirname,'projects',projectName), function (err) {
               if (err) 
                 return console.log(err)
               else{
                 try {
+                      fs.writeFileSync(path.join(__dirname,'projects',projectName,'scripts','runTests.sh'), outputTest, 'utf8');
+
+                      
+
                       const ls = spawn('terraform init && terraform plan ', { shell : true , cwd: path.join(__dirname,'projects',projectName)});
                                   
                       ls.stdout.on('data', (data) => {
@@ -68,6 +83,18 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
                 };
               }
             });
+
+            fs.mkdir(path.join(__dirname,'projects',projectName,'logs'), { recursive: true }, (err) => {
+          
+              if (err){
+                console.log("Error: "+err);
+                throw err;
+              }else {
+              
+              }});
+    
+
+            
           }
         });
 
@@ -97,6 +124,32 @@ exports.launchPerses = function(projectName){
       console.log("The project does not exist")
   
   };
+
+
+  exports.runTests = function(projectName){
+  
+    console.log("  - ProjectName: '" + projectName + "'");
+      if (fs.existsSync(path.join(__dirname,'projects',projectName))) {
+        console.log("Launch...");
+        try {
+              const terraform = spawn('bash runTests.sh', { shell : true , cwd: path.join(__dirname,'projects',projectName,'scripts')});
+             
+              terraform.stdout.on('data', (data) => {
+                console.log(`stdout: ${data}`);
+              });
+                
+              terraform.stderr.on('data', (data) => {
+                console.log(`stderr: ${data}`);
+              });
+        
+          } catch (err){
+            console.error(err);
+          };
+      }else
+        console.log("The project does not exist")
+    
+    };
+  
 
   
 

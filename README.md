@@ -27,12 +27,14 @@ Configure test/configExample.yaml
     - Author
     - Region (if necessary)
     - Apk absolute path (the Apk test is in 'test' folder )
+    - Log tags
+    - Tests
 
 # Usage
 
 Usage: node index -a action -g <config.yaml> -c <credentials.yaml> -n projectName
 
-    Where : action = setup | launch | destroy 
+    Where : action = setup | launch | tests | destroy 
 
 ### Setup project
 
@@ -40,6 +42,9 @@ Usage: node index -a action -g <config.yaml> -c <credentials.yaml> -n projectNam
 
 ### Launch project
     -a launch projectName
+
+### Run tests
+    -a tests projectName
 
 ### Destroy project
     -a destroy projectName

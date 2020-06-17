@@ -1,0 +1,8 @@
+#! /bin/bash
+
+####TESTS APIPECKER#####
+
+{{#tests}}  
+npx apipecker {{{concurrentUsers}}} {{{iterations}}} {{{delay}}} "{{{url}}}" -v > ../logs/{{{id}}}.txt
+
+{{/tests}}

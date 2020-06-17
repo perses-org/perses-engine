@@ -1,5 +1,6 @@
 #! /bin/bash
 
+echo "Start devices..."
 
 # 1: number of devices
 
