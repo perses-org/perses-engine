@@ -17,13 +17,13 @@ Into perses project
 
 # Configure Test
 
-Configure test/credentialExample.yaml
+Configure *test/credentialExample.yaml*
 - Access Key
 - Secret Key
 - Key '.pem' absolute path
 - Key name
 
-Configure test/configExample.yaml 
+Configure *test/configExample.yaml*
 - Author
 - Region (if necessary)
 - Apk absolute path (the Apk test is in 'test' folder )
