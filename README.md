@@ -41,10 +41,10 @@ Usage: node index -a action -g <config.yaml> -c <credentials.yaml> -n projectNam
     -a setup -g test/configExample.yaml -c test/credentialsExample.yaml -n projectName
 
 ### Launch project
-    -a launch projectName
+    -a launch -n projectName
 
 ### Run tests
-    -a tests projectName
+    -a tests -n projectName
 
 ### Destroy project
-    -a destroy projectName
+    -a destroy -n projectName
