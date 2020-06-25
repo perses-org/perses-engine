@@ -1,9 +1,12 @@
 #! /bin/bash
 
+############################## INSTALL APK WITH ADB ###############################
 
-# $1: numero de dispositivos
-# $2: nombre del apk
-# $3: timewait
+# This script installs the .apk file on the virtualized android devices.
+
+# $1: Number of devices and IP reference.
+# $2: Waiting time before installing the application.
+
 sleep $2
 
 	if [ $1 -gt 0 ]

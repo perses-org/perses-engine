@@ -1,5 +1,13 @@
 #! /bin/bash
 
+############################## EXECUTE ANDROID APPLICATION WITH ADB ###############################
+
+# This script starts the application on virtualized Android devices.
+
+# $1: Number of devices 
+# $2: applicationId of the application that you want to run
+
+
 
 wait 10
 

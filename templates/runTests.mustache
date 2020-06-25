@@ -2,7 +2,10 @@
 
 ####TESTS APIPECKER#####
 
-{{#tests}}  
-npx apipecker {{{concurrentUsers}}} {{{iterations}}} {{{delay}}} "{{{url}}}" -v > ../logs/{{{id}}}.txt
+{{#tests}} 
+
+echo "------ Starting test -> {{{id}}} ------"
+npx apipecker {{{concurrentUsers}}} {{{iterations}}} {{{delay}}} "{{{url}}}" -v  2>&1 | tee ../logs/{{{id}}}.txt
+echo "------ Finished test -> {{{id}}} ------"
 
 {{/tests}}

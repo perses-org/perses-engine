@@ -16,7 +16,7 @@ devices=process.argv[2]
 function processLineByLine(file, arrayTags) {
 
     
-    pathFile=path.join(__dirname,'logs','logs-devices',file)
+    pathFile=path.join(__dirname,'logs','devices-logs',file)
 
 
     const fileStream = fs.createReadStream(pathFile);
@@ -31,7 +31,7 @@ function processLineByLine(file, arrayTags) {
     
         for(let val of arrayTags) {
             if(line.includes(val)){
-                fs.appendFileSync(path.join(__dirname,'logs','logs-devices',"output-"+file), line.toString() + "\n");
+                fs.appendFileSync(path.join(__dirname,'logs','devices-logs',"output-"+file), line.toString() + "\n");
             }
         }
         
@@ -45,7 +45,8 @@ function processLineByLine(file, arrayTags) {
 for (let step = 1; step <= devices; step++) {
 
     processLineByLine("log-android"+step+".txt", arrayString);
-    console.log("Finish filter on "+"log-android"+step+".txt");
+    console.log("Filtering finished in "+"log-android"+step+".txt");
   }
 
+console.log("The filtered logs have been stored in -------> /logs/devices-logs/")
 

@@ -1,7 +1,13 @@
 #! /bin/bash
 
 
-wait 10
+############################## EXTRACT LOGS FROM ANDROID DEVICES WITH ADB ###############################
+
+# This script extracts the logs from the virtualized Android devices.
+
+# $1: Number of devices and IP reference.
+# $2: 'applicationId' of the application that you want to extract logs.
+
 
 echo "Get Logs..."
 
@@ -9,15 +15,15 @@ if [ $1 -gt 0 ] && [ $# -eq 2 ];
 then
 
 	for i in $(seq 1 $1); do
-		echo "Get Logs on android-"$i
+		echo "Obtaining Logs from android-"$i
 		var=$(($i+1))
 		adb connect 172.17.0.$var
-		adb -s 172.17.0.$var logcat $2:D -d > ./logs-devices/log-android$i.txt 
-		echo "Get Logs from android-"$i" correctly!"
+		adb -s 172.17.0.$var logcat $2:D -d > ./devices-logs/log-android$i.txt 
+		echo "Logs obtained correctly from android-"$i
 
 	done
 
-	echo "Finish Get Logs!"
+	echo "Logs extracted correctly!"
 else
 	echo "Enter the parameters, 1. Number of devices 2. applicationId"
 fi

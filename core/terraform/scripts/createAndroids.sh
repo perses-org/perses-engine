@@ -1,8 +1,18 @@
 #! /bin/bash
 
+############################## CREATE ANDROID DEVICES WITH DOCKER ###############################
 
-# $1: numero de dispositivos
-# $2: version Android (6 al 10)
+# This script creates '$1' Docker containers with CPU and RAM limitation specified by parameters '$3' and '$4'. 
+# Docker uses an image from an Android device with the version specified in '$2' parameter.
+
+# $1: Number of devices and IP reference.
+# $2: Android version (6 to 10).
+# $3: CPU for container.
+# $4: RAM for container.
+
+
+
+
 echo "Docker: Create containers..."
 
 if [ $# -eq 4 ] 
@@ -25,7 +35,7 @@ then
 	fi
 
 else
-	echo "Enter an two parameters 1: number of devices, 2: Android version (6 to 10), 3: CPU for container, 4: RAM for container"
+	echo "Enter an two parameters 1: Number of devices, 2: Android version (6 to 10), 3: CPU for container, 4: RAM for container"
 fi
 
 echo "Docker: Finish create containers"
