@@ -48,3 +48,10 @@ Usage: node index -a action -g <config.yaml> -c <credentials.yaml> -n projectNam
 
 ### Destroy project
     -a destroy -n projectName
+
+
+# Recommendations
+### Time wait
+
+### Volume size
+The minimum volume must be 6.5 GB for SO and 2.7 GB per device.

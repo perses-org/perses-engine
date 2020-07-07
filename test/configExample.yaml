@@ -19,7 +19,7 @@ ec2_username: "ubuntu"
 #AWS Region.
 region: "eu-west-1"
 
-#Volume size (in GB).
+#Volume size (in GB). Minimum 6.5 GB for SO and 2.7 GB per device.
 volume_size: "20"
 
 

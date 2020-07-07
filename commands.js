@@ -41,70 +41,81 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
         // Read 'apk path' and 'key_path' parameters to checking
         var apk_path=parameters["apk_path"]
         var key_path=parameters["key_path"]
+        
+        //Check volume size
+        var current_volume=parameters["volume_size"]
+        var devices=parameters["number_devices"]
+        var recommended_volume= 6.5 + (devices * 2.7);
 
-        if (fs.existsSync(apk_path)) {
-          if (fs.existsSync(key_path)) {
-            
-              var output = mustache.render(terraformTemplate, parameters);
-              var outputTest = mustache.render(testTemplate, parameters);
-              var outputLog = mustache.render(logTemplate, parameters);
-
-              console.log("Creating projects folder...");
-              fs.mkdir(path.join(__dirname,'projects',projectName), { recursive: true }, (err) => {
-                
-                if (err){
-                  console.log("Error: "+err);
-                  throw err;
-                }else {
-
-                  //Generates variable files for Terraform
-                  fs.writeFileSync(path.join(__dirname,'projects',projectName,'variables.tf'), output, 'utf8');
-                  
-                  //Generates the script to later filter the logs with the tags defined in the configuration file
-                  fs.writeFileSync(path.join(__dirname,'projects',projectName,'filterLogs.js'), outputLog, 'utf8');
-
-
-                  //Copy the scripts and other files to the project folder
-                  fs.copy(path.join(__dirname,'core','terraform'), path.join(__dirname,'projects',projectName), function (err) {
-                    if (err) 
-                      return console.log(err)
-                    else{
-                      try {
-                            //Generates tests file
-                            fs.writeFileSync(path.join(__dirname,'projects',projectName,'scripts','runTests.sh'), outputTest, 'utf8');
-
-                            //Init Terraform
-                            const ls = spawn('terraform init && terraform plan ', { shell : true , cwd: path.join(__dirname,'projects',projectName)});
-                                        
-                            ls.stdout.on('data', (data) => {
-                              console.log(`stdout: ${data}`);
-                            });
-                              
-                            ls.stderr.on('data', (data) => {
-                              console.log(`stderr: ${data}`);
-                            });
-                      
-                      } catch (err){
-                            console.error(err);
-                      };
-                    }
-                  });
-
-                  fs.mkdir(path.join(__dirname,'projects',projectName,'logs'), { recursive: true }, (err) => {
-                
-                    if (err){
-                      console.log("Error: "+err);
-                      throw err;
-                    }else {
-                    
-                    }});
-                }
-              });
-
-            }else{console.log("KEY FILE DOESN'T EXIST!")}
+        if(current_volume >= recommended_volume){
+          if (fs.existsSync(apk_path)) {
+            if (fs.existsSync(key_path)) {
               
-          
-          }else{console.log("APK FILE DOESN'T EXIST!")}
+                var output = mustache.render(terraformTemplate, parameters);
+                var outputTest = mustache.render(testTemplate, parameters);
+                var outputLog = mustache.render(logTemplate, parameters);
+  
+                console.log("Creating projects folder...");
+                fs.mkdir(path.join(__dirname,'projects',projectName), { recursive: true }, (err) => {
+                  
+                  if (err){
+                    console.log("Error: "+err);
+                    throw err;
+                  }else {
+  
+                    //Generates variable files for Terraform
+                    fs.writeFileSync(path.join(__dirname,'projects',projectName,'variables.tf'), output, 'utf8');
+                    
+                    //Generates the script to later filter the logs with the tags defined in the configuration file
+                    fs.writeFileSync(path.join(__dirname,'projects',projectName,'filterLogs.js'), outputLog, 'utf8');
+  
+  
+                    //Copy the scripts and other files to the project folder
+                    fs.copy(path.join(__dirname,'core','terraform'), path.join(__dirname,'projects',projectName), function (err) {
+                      if (err) 
+                        return console.log(err)
+                      else{
+                        try {
+                              //Generates tests file
+                              fs.writeFileSync(path.join(__dirname,'projects',projectName,'scripts','runTests.sh'), outputTest, 'utf8');
+  
+                              //Init Terraform
+                              const ls = spawn('terraform init && terraform plan ', { shell : true , cwd: path.join(__dirname,'projects',projectName)});
+                                          
+                              ls.stdout.on('data', (data) => {
+                                console.log(`stdout: ${data}`);
+                              });
+                                
+                              ls.stderr.on('data', (data) => {
+                                console.log(`stderr: ${data}`);
+                              });
+                        
+                        } catch (err){
+                              console.error(err);
+                        };
+                      }
+                    });
+  
+                    fs.mkdir(path.join(__dirname,'projects',projectName,'logs'), { recursive: true }, (err) => {
+                  
+                      if (err){
+                        console.log("Error: "+err);
+                        throw err;
+                      }else {
+                      
+                      }});
+                  }
+                });
+  
+              }else{console.log("KEY FILE DOESN'T EXIST!")}
+                
+            
+            }else{console.log("APK FILE DOESN'T EXIST!")}
+
+        }else{console.log("The volume size is insufficient. For this project is recommended at least "+recommended_volume+" GB.")}
+
+
+        
 
         } 
 }

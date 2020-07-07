@@ -14,7 +14,7 @@ program
 
 
 program
-  .requiredOption('-a, --persesAction <action>', 'actions = setup | launch | destroy ')
+  .requiredOption('-a, --persesAction <action>', 'actions = setup | launch | tests | destroy ')
   .option('-c, --credentialsFileName <filepath>', 'credentials file path')
   .option('-g, --configFileName <filepath>', 'configuration project file path')
   .requiredOption('-n, --projectName <name>', 'project name')
