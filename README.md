@@ -63,6 +63,25 @@ Usage: `node index -a action -g <config.yaml> -c <credentials.yaml> -n projectNa
 
 `node index.js -a destroy -n projectName`
 
+# Devops automation with GHA
+Perses can be integrated with a devops cycle with the help of [GHA](https://github.com/features/actions)
+
+## Prequistes
+ - Graddle configured to be run into the project (with gradlew / graddle.bat [with execution rights configured propperly](https://stackoverflow.com/questions/17668265/gradlew-permission-denied))
+ - APK build is configured to be generated at ``/app/build/outputs/apk/debug/app-debug.apk``
+
+
+## Configuration
+1. Copy [GHA workflow](http://github.com/perses-org/gha/workflow/perses.yml) into your repo ``.github/workflow/perses.yml`` 
+2. Copy perses [configuration template](http://github.com/perses-org/gha/template/.perses.yml) ``.perses.yml`` to the root of your repo and fill it in with your preferences.
+3. Include the following secrets:
+   - AWS_ACCESS_KEY
+   - AWS_SECRET_KEY
+   - KEY_NAME
+   - KEY_PEM
+   - PERSES_PAT
+
+
 
 # Recommendations
 
