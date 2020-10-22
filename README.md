@@ -67,19 +67,20 @@ Usage: `node index -a action -g <config.yaml> -c <credentials.yaml> -n projectNa
 Perses can be integrated with a devops cycle with the help of [GHA](https://github.com/features/actions)
 
 ## Prequistes
- - Graddle configured to be run into the project (with gradlew / graddle.bat [with execution rights configured propperly](https://stackoverflow.com/questions/17668265/gradlew-permission-denied))
+ - Graddle configured to be run into the project (Having the script gradlew / graddle.bat [with execution rights configured propperly](https://stackoverflow.com/questions/17668265/gradlew-permission-denied) in the root of the repo)
  - APK build is configured to be generated at ``/app/build/outputs/apk/debug/app-debug.apk``
-
+ - APK for Espresso tests build is configured to be generated at ``/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk``
 
 ## Configuration
-1. Copy [GHA workflow](http://github.com/perses-org/gha/workflow/perses.yml) into your repo ``.github/workflow/perses.yml`` 
-2. Copy perses [configuration template](http://github.com/perses-org/gha/template/.perses.yml) ``.perses.yml`` to the root of your repo and fill it in with your preferences.
-3. Include the following secrets:
+1. Copy [GHA workflow](https://github.com/perses-org/gha/blob/master/workflow/perses.yml) into your repo ``.github/workflow/perses.yml`` 
+2. Copy perses [configuration template](https://github.com/perses-org/gha/blob/master/template/.perses.yml) ``.perses.yml`` to the root of your repo and fill it in with your preferences.
+3. Include the following secrets with your AWS credentials:
    - AWS_ACCESS_KEY
    - AWS_SECRET_KEY
    - KEY_NAME
    - KEY_PEM
-   - PERSES_PAT
+4. 
+   - PERSES_PAT : the personal access token to obtain the engine.
 
 
 
