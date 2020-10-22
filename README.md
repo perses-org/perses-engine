@@ -63,12 +63,11 @@ Usage: `node index -a action -g <config.yaml> -c <credentials.yaml> -n projectNa
 
 `node index.js -a destroy -n projectName`
 
-   
 
 # Recommendations
 
 ### Time wait
-**EC2 -- C5.metal: (1.5 CPU and 3G RAM)**
+**EC2 - C5.metal: (1.5 CPU and 3G RAM)**
 - 2 min for 2 devices
 - 2 min for 4 devices
 - 3 min for 8 devices
