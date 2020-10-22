@@ -106,5 +106,6 @@ dist
 config-test
 projects
 terraform-test
+package-lock.json
 
 experiment
