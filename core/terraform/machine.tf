@@ -23,7 +23,8 @@ resource "aws_instance" "virtual_environment_perses" {
     inline = [
       "mkdir apk",
       "mkdir scripts",
-      "mkdir devices-logs"
+      "mkdir devices-logs",
+      "mkdir devices-logs/espresso"
     ]
   }
 
@@ -37,6 +38,23 @@ resource "aws_instance" "virtual_environment_perses" {
     destination = "./apk/app.apk"
   }
 
+  provisioner "file" {
+    source      = var.apk_test_path
+    destination = "./apk/app_test.apk"
+    on_failure = continue
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash ./scripts/connection.sh ${(var.key_path)} ${(var.ec2_username)} ${(self.public_ip)} ${(var.number_devices)} ${(var.application_id)}"]
+  }
+
+  provisioner "local-exec" {
+    command = "scp -o StrictHostKeyChecking=no -i ${(var.key_path)} ${(var.ec2_username)}@${(self.public_ip)}:connection.txt connection.txt"
+    
+  }
+
+
 
   provisioner "remote-exec" {
     inline = [
@@ -44,7 +62,12 @@ resource "aws_instance" "virtual_environment_perses" {
       "sudo apt --assume-yes install docker.io",
       "sudo systemctl start docker",
       "sudo systemctl enable docker",
-      "sudo apt-get --assume-yes install android-tools-adb android-tools-fastboot"
+      "sudo apt-get --assume-yes install android-tools-adb android-tools-fastboot",
+      "sudo apt  --assume-yes install curl",
+      "curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -",
+      "sudo apt --assume-yes install nodejs",
+      "cd scripts",
+      "npm install"
     ]
   }
 
@@ -53,13 +76,14 @@ resource "aws_instance" "virtual_environment_perses" {
       "bash ./scripts/createAndroids.sh ${(var.number_devices)} ${(var.android_version)} ${(var.cpu_devices)} ${(var.ram_devices)}",
       "bash ./scripts/startAndroids.sh ${(var.number_devices)}",
       "bash ./scripts/installApk.sh ${(var.number_devices)} ${(var.time_wait)}",
-      "bash ./scripts/executeApk.sh ${(var.number_devices)} ${(var.application_id)}"
+      #"bash ./scripts/executeApk.sh ${(var.number_devices)} ${(var.application_id)}"
     ]
   }
 
   provisioner "local-exec" {
     when    = destroy
     command = " ssh -o StrictHostKeyChecking=no -i ${(var.key_path)} ${(var.ec2_username)}@${(self.public_ip)} bash ./scripts/getLogs.sh ${(var.number_devices)} ${(var.application_id)} && scp -i ${(var.key_path)} -r ${(var.ec2_username)}@${(self.public_ip)}:devices-logs/ logs/ && node filterLogs.js ${(var.number_devices)}"
+    on_failure = continue
   }
 
   tags = {

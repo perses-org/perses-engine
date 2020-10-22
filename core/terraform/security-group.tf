@@ -36,4 +36,13 @@ resource "aws_security_group" "virtual_environment_perses" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "expose 80 to outside"
   }
+
+  ingress {
+    from_port   = 6000
+    to_port     = var.end_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "expose 80 to outside"
+  }
+
 }

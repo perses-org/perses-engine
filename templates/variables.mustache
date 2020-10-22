@@ -33,6 +33,12 @@ variable "author" {
   default     = "{{author}}"
 }
 
+variable "end_port"{
+  type        = string
+  default     = "{{port}}"
+}
+
+
 
 variable "key_path" {
   description = "Key path for SSHing into EC2"
@@ -78,6 +84,12 @@ variable "apk_path" {
   description = "Apk path for testing"
   type        = string
   default     = "{{{apk_path}}}"
+}
+
+variable "apk_test_path" {
+  description = "Apk path for testing with Espresso"
+  type        = string
+  default     = "{{{apk_test_path}}}"
 }
 
 

@@ -27,11 +27,12 @@ program
           else
             perses.setupPerses(options.credentialsFileName, options.configFileName, options.projectName)
         break;
+        
       case 'launch':
           perses.launchPerses(options.projectName)
         break;
 
-        case 'tests':
+      case 'tests':
           perses.runTests(options.projectName)
         break;
           
@@ -42,13 +43,8 @@ program
       default:
           console.log('Incorrect action! => setup | launch | tests | destroy')
 
-
-
     }
   });
-
-
-
 
 program.parse(process.argv);
 
