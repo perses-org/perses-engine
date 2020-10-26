@@ -109,7 +109,6 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
 
             fs.writeFileSync(path.join(__dirname,'projects',projectName,'perses-tests.yaml'), yaml.safeDump(tests), 'utf8');
          
-
             //Copy the scripts and other files to the project folder
             fs.copy(path.join(__dirname,'core','terraform'), path.join(__dirname,'projects',projectName), function (err) {
               if (err) 
