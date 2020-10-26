@@ -107,7 +107,7 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
             //Generates the script to later filter the logs with the tags defined in the configuration file
             fs.writeFileSync(path.join(__dirname,'projects',projectName,'filterLogs.js'), outputLog, 'utf8');
 
-            fs.writeFileSync(path.join(__dirname,'projects',projectName,'tests.yaml'), yaml.safeDump(tests), 'utf8');
+            fs.writeFileSync(path.join(__dirname,'projects',projectName,'perses-tests.yaml'), yaml.safeDump(tests), 'utf8');
          
 
             //Copy the scripts and other files to the project folder
@@ -187,7 +187,7 @@ exports.runTests = function(projectName){
     if (fs.existsSync(path.join(__dirname,'projects',projectName))) {
 
         //CHECK TESTS
-        var tests = yaml.load(fs.readFileSync(path.join(__dirname,'projects',projectName, 'tests.yaml'), "utf8"));
+        var tests = yaml.load(fs.readFileSync(path.join(__dirname,'projects',projectName, 'perses-tests.yaml'), "utf8"));
         checkUITests(tests)
         checkPerformanceTests(tests)
 
