@@ -33,7 +33,7 @@ async function checkFiles(){
 
       file=fs.readFileSync(path.join(__dirname,'../devices-logs/espresso/') + filename, 'utf-8');
 
-      if(file.indexOf('INSTRUMENTATION_CODE: -1') >= 0 && !file){
+      if(file.indexOf('INSTRUMENTATION_CODE: -1') >= 0){
             actualResults++;
       }
 
