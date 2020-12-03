@@ -79,9 +79,6 @@ Perses can be integrated with a devops cycle with the help of [GHA](https://gith
    - AWS_SECRET_KEY
    - KEY_NAME
    - KEY_PEM
-4. 
-   - PERSES_PAT : the personal access token to obtain the engine.
-
 
 
 # Recommendations
