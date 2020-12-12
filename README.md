@@ -1,7 +1,7 @@
 
 # Perses
 
-Perses framework for Mobile Application Performance Analysis
+Perses framework for Distributed Mobile Application Performance Analysis
 
   
 
