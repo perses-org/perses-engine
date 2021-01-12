@@ -43,12 +43,11 @@ Configure *test/configExample.yaml*
 
 Usage: `node index -a action -g <config.yaml> -c <credentials.yaml> -n projectName`
 
-**Where : action = setup | launch | tests | destroy** 
+**Where : action = setup | launch | tests | getLogs | destroy** 
 
 ### Setup project
 ` node index.js -a setup -g test/configExample.yaml -c test/credentialsExample.yaml -n projectName `
 
-  
 
 ### Launch project
 
@@ -58,6 +57,9 @@ Usage: `node index -a action -g <config.yaml> -c <credentials.yaml> -n projectNa
 
 `node index.js -a tests -n projectName`
 
+### Get Logs
+
+`node index.js -a getLogs -n projectName`
   
 ### Destroy project
 
@@ -85,10 +87,10 @@ Perses can be integrated with a devops cycle with the help of [GHA](https://gith
 
 ### Time wait
 **EC2 - C5.metal: (1.5 CPU and 3G RAM)**
-- 2 min for 2 devices
-- 2 min for 4 devices
-- 3 min for 8 devices
-- 5 min for 16 devices
-- 8 min for 32 devices
-- 15 min for 50 devices
-- 23 min for 60 devices (max devices)
+- 3 min for 2 devices
+- 3 min for 4 devices
+- 4 min for 8 devices
+- 6 min for 16 devices
+- 9 min for 32 devices
+- 18 min for 50 devices
+- 25 min for 60 devices (max devices)

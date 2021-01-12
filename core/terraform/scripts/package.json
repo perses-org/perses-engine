@@ -11,7 +11,8 @@
     "license": "UEX",
     "dependencies": {
       "fs-extra": "^9.0.1",
-      "path": "0.12.7"
+      "path": "0.12.7",
+      "js-yaml": "^4.0.0"
     }
   }
   

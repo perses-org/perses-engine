@@ -99,28 +99,6 @@ variable "number_devices"{
   default     = "{{number_devices}}"
 }
 
-
-variable "cpu_devices"{
-  description = "Maximum CPU for each Android devices (minimum 1.5)."
-  type        = string
-  default     = "{{cpu_devices}}"
-}
-
-
-variable "ram_devices"{
-  description = "Maximum RAM for Android devices (minimum 3g)."
-  type        = string
-  default     = "{{ram_devices}}"
-}
-
-
-variable "android_version"{
-  description = "Android version to use (6 to 10)."
-  type        = string
-  default     = "{{android_version}}"
-}
-
-
 variable "application_id"{
   description = "Application Id (app.package.name) of Android app."
   type        = string

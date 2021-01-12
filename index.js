@@ -5,7 +5,6 @@ require('log-timestamp');
 
 const program = require('commander');
 const packageJson = require('./package.json');
-
 const perses = require('./commands.js');
 
 program
@@ -14,7 +13,7 @@ program
 
 
 program
-  .requiredOption('-a, --persesAction <action>', 'actions = setup | launch | tests | destroy ')
+  .requiredOption('-a, --persesAction <action>', 'actions = setup | launch | tests | getLogs | destroy ')
   .option('-c, --credentialsFileName <filepath>', 'credentials file path')
   .option('-g, --configFileName <filepath>', 'configuration project file path')
   .requiredOption('-n, --projectName <name>', 'project name')
@@ -34,6 +33,10 @@ program
 
       case 'tests':
           perses.runTests(options.projectName)
+        break;
+
+      case 'getLogs':
+          perses.getLogs(options.projectName)
         break;
           
       case 'destroy':

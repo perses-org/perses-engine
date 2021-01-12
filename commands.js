@@ -46,6 +46,7 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
         var apk_test_path=parameters["apk_test_path"]
         var key_path=parameters["key_path"]
         var tests=parameters["tests"]
+        var perses_devices=parameters["devices"]
 
         // Check APK file
         if (!fs.existsSync(apk_path)) {
@@ -78,6 +79,24 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
         
         //Put Parameters
         //Size
+        var number_devices=0;
+
+        console.log(perses_devices)
+
+        perses_devices.forEach(function(setDevices){
+
+          if(setDevices.type == "mobile"){
+            for (let step = 0; step < setDevices.devices; step++) {
+              number_devices++;
+              console.log("Deviceee "+number_devices)
+            }
+          }
+
+        });
+        parameters["number_devices"]=number_devices
+
+
+
          var devices=parameters["number_devices"]
         parameters["volume_size"]=Math.round(10 + (devices * 2.7))
         //AMI ID
@@ -109,6 +128,7 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
 
             fs.writeFileSync(path.join(__dirname,'projects',projectName,'perses-tests.yaml'), yaml.safeDump(tests), 'utf8');
          
+           
             //Copy the scripts and other files to the project folder
             fs.copy(path.join(__dirname,'core','terraform'), path.join(__dirname,'projects',projectName), function (err) {
               if (err) 
@@ -125,12 +145,15 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
                       ls.stderr.on('data', (data) => {
                         console.log(`stderr: ${data}`);
                       });
+
+                      fs.writeFileSync(path.join(__dirname,'projects',projectName, 'scripts','perses-devices.yaml'), yaml.safeDump(perses_devices), 'utf8');
                 
                 } catch (err){
                       console.error(err);
                 };
               }
             });
+            
 
             fs.mkdir(path.join(__dirname,'projects',projectName,'logs'), { recursive: true }, (err) => {
           
@@ -203,11 +226,76 @@ exports.runTests = function(projectName){
       console.log("The project does not exist")
   
   };
+
+
+
+/*
+ * <<<< Get Logs  >>>>
+ * This function downloads the logs generated on the virtualized Android devices to filter them later.
+ */
+
+exports.getLogs = function(projectName){
+  
+
+  if (fs.existsSync(path.join(__dirname,'projects',projectName))) {
+    console.log("Get Logs...");
+    try {
+          //Destroy Terraform
+          var connection = fs.readFileSync(path.join(__dirname,'projects',projectName, 'connection.txt'), "utf8");
+        connection = connection.split(",");
+        var key = connection[0]
+        var username = connection[1]
+        var ip = connection[2]
+        var devices = connection[3]
+        var applicationId = connection[4]
+
+        var command='ssh -o StrictHostKeyChecking=no -i '+key+' '+username+'@'+ip+'  bash ./scripts/getLogs.sh '+devices+' '+applicationId//+' && scp -i '+key+' -r '+username+'@'+ip+':devices-logs/ logs/ && node filterLogs.js '+devices
+        const getLogs = spawn(command, { shell : true , cwd: path.join(__dirname,'projects',projectName)});
+
+        
+        getLogs.stdout.on('data', (data) => {
+          console.log(`stdout: ${data}`);
+        });
+          
+        getLogs.stderr.on('data', (data) => {
+          console.log(`stderr: ${data}`);
+        });
+
+        getLogs.on('close', (code) => {
+          command='scp -i '+key+' -r '+username+'@'+ip+':devices-logs/ logs/ && node filterLogs.js '+devices
+          const downloadLogs = spawn(command, { shell : true , cwd: path.join(__dirname,'projects',projectName)});
+
+          
+          downloadLogs.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+          });
+            
+          downloadLogs.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+          });
+         
+        });
+
+        /*--------------------------------------------*/ 
+
+        
+
+
+
+      
+    } catch (err){
+        console.error(err);
+    };
+  }else
+    console.log("The project does not exist")
+  
+ };
+
+
   
 /*
  * <<<< Destroy Perses >>>>
  * This function destroy the defined Terraform infrastructure created in the folder 'projectName'.
- * Also downloads the logs generated on the virtualized Android devices to filter them later.
  */
 
 exports.destroyPerses = function(projectName){

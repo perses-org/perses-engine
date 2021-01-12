@@ -73,18 +73,19 @@ resource "aws_instance" "virtual_environment_perses" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash ./scripts/createAndroids.sh ${(var.number_devices)} ${(var.android_version)} ${(var.cpu_devices)} ${(var.ram_devices)}",
+      "node ./scripts/createAndroidDevices.js",
       "bash ./scripts/startAndroids.sh ${(var.number_devices)}",
       "bash ./scripts/installApk.sh ${(var.number_devices)} ${(var.time_wait)}",
-      #"bash ./scripts/executeApk.sh ${(var.number_devices)} ${(var.application_id)}"
+      "bash ./scripts/executeApk.sh ${(var.number_devices)} ${(var.application_id)}"
     ]
   }
 
-  provisioner "local-exec" {
-    when    = destroy
-    command = " ssh -o StrictHostKeyChecking=no -i ${(var.key_path)} ${(var.ec2_username)}@${(self.public_ip)} bash ./scripts/getLogs.sh ${(var.number_devices)} ${(var.application_id)} && scp -i ${(var.key_path)} -r ${(var.ec2_username)}@${(self.public_ip)}:devices-logs/ logs/ && node filterLogs.js ${(var.number_devices)}"
-    on_failure = continue
-  }
+# provisioner "local-exec" {
+#     when    = destroy
+#     command = "ssh -o StrictHostKeyChecking=no -i ${(var.key_path)} ${(var.ec2_username)}@${(self.public_ip)} bash ./scripts/getLogs.sh ${(var.number_devices)} ${(var.application_id)} && scp -i ${(var.key_path)} -r ${(var.ec2_username)}@${(self.public_ip)}:devices-logs/ logs/ && node filterLogs.js ${(var.number_devices)}"
+#     on_failure = continue
+#   }
+
 
   tags = {
     Name = var.project_name
