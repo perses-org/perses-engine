@@ -7,7 +7,6 @@ project_name: "Perses Test"
 author: " "
 
 
-
 ######### EC2 Configuration #########
 
 #Instance AWS type: Only compatible with machines that support kvm virtualization -> https://help.ubuntu.com/community/KVM/Installation.

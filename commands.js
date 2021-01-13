@@ -98,7 +98,7 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
 
 
          var devices=parameters["number_devices"]
-        parameters["volume_size"]=Math.round(10 + (devices * 2.7))
+        parameters["volume_size"]=Math.round(10 + (devices * 3))
         //AMI ID
         parameters["ami_id"]= "ami-035966e8adab4aaad"
         //EC2 USERNAME
