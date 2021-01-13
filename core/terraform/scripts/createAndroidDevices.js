@@ -19,7 +19,7 @@ perses_devices.forEach(function(setDevices){
       //Create Docker containers
       try {
           //Destroy Terraform
-          var command= 'sudo docker create --privileged  --cpus="'+setDevices.hardware.cpu+'" --memory="'+setDevices.hardware.ram+'"  -p  '+port+':6080 -e DEVICE="Samsung Galaxy S6" --name android-'+number_devices+' budtmo/docker-android-x86-'+setDevices.android_version+'.0'
+          var command= 'sudo docker create --privileged  --cpus="'+setDevices.hardware.cpu+'" --memory="'+setDevices.hardware.ram+'"  -p  '+port+':6080 -e DEVICE="Samsung Galaxy S10" --name android-'+number_devices+' budtmo/docker-android-x86-'+setDevices.android_version+'.0'
           const terraform = spawn(command, { shell : true , cwd: path.join(__dirname)});
           port++;   
           number_devices++;       
