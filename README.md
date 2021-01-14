@@ -68,7 +68,7 @@ Usage: `node index -a action -g <config.yaml> -c <credentials.yaml> -n projectNa
 # Devops automation with GHA
 Perses can be integrated with a devops cycle with the help of [GHA](https://github.com/features/actions)
 
-## Prequistes
+## Prerequistes
  - Graddle configured to be run into the project (Having the script gradlew / graddle.bat [with execution rights configured propperly](https://stackoverflow.com/questions/17668265/gradlew-permission-denied) in the root of the repo)
  - APK build is configured to be generated at ``/app/build/outputs/apk/debug/app-debug.apk``
  - APK for Espresso tests build is configured to be generated at ``/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk``
