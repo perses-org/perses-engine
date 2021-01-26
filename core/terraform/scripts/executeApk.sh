@@ -26,7 +26,7 @@ then
 			var=$(($i+1))
 			adb connect 172.17.0.$var
 			# adb -s 172.17.0.$var shell monkey -p $2 -c android.intent.category.LAUNCHER 1
-			adb -s 172.17.0.$var shell am start -n $2/.MainActivity -e param S2_User$i
+			adb -s 172.17.0.$var shell am start -n $2/.MainActivity -e param S1_User$i
 			echo "Execute apk on android-"$i
 		done
 	done
