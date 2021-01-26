@@ -16,6 +16,7 @@ sleep 10
 
 echo "Execute apk in devices..."
 
+
 if [ $1 -gt 0 ] && [ $# -eq 2 ];
 then
 		
@@ -24,7 +25,7 @@ then
 			echo "Start... apk on android-"$i
 			var=$(($i+1))
 			adb connect 172.17.0.$var
-			adb -s 172.17.0.$var shell monkey -p $2 -c android.intent.category.LAUNCHER 1
+			adb -s 172.17.0.$var shell monkey -p $2 -c android.intent.category.LAUNCHER 1 -e param S2_User$i
 			echo "Execute apk on android-"$i
 		done
 	done

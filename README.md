@@ -1,7 +1,7 @@
 
 # Perses
 
-Perses framework for Distributed Mobile Applications Performance Analysis
+Perses framework for Distributed Mobile Applications Performance Analysis.
 
   
 
@@ -13,9 +13,11 @@ Perses framework for Distributed Mobile Applications Performance Analysis
 
 3. Download and install terraform -> https://www.terraform.io/downloads.html
 
-4. `git clone https://github.com/perses-org/perses.git`
+4. Amazon Web Service (AWS) account -> https://aws.amazon.com/
 
-5. Into perses project:
+5. `git clone https://github.com/perses-org/perses.git`
+
+6. Into perses project:
 - `npm install`
 
   
@@ -24,10 +26,10 @@ Perses framework for Distributed Mobile Applications Performance Analysis
 
 Configure *test/credentialExample.yaml*
 
-- Access Key
-- Secret Key
-- Key '.pem' absolute path
-- Key name
+- AWS Access Key
+- AWS Secret Key
+- AWS Key '.pem' absolute path
+- AWS Key name
 
 
 Configure *test/configExample.yaml*
