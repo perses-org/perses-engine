@@ -1,4 +1,4 @@
-## Verification of possibility to instantiate .metal instances
+## Verification of .metal instance creation
 
 Perses  requires  AWS ``.metal``instances that allow nested virtualization, however Ahese correspond with large instances and AWS usually define a maximum threshold by default to
 the number of vCPUs (typically 32 vCPU) the usuer could request and therefore ```.metal``` (starting at 96 CPU) are disabled in the default configuration.
