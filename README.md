@@ -5,7 +5,7 @@ Perses framework for Distributed Mobile Applications Performance Analysis.
 
   
 
-# Requisites
+# Prerequisites
 
 1. Download and install git -> https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 
@@ -14,6 +14,8 @@ Perses framework for Distributed Mobile Applications Performance Analysis.
 3. Download and install terraform -> https://www.terraform.io/downloads.html
 
 4. Amazon Web Service (AWS) account -> https://aws.amazon.com/
+
+5. [Verify the possibility of .metal instance creation](MetalVerification.md)
 
 5. `git clone https://github.com/perses-org/perses.git`
 
