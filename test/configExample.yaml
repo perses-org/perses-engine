@@ -74,7 +74,7 @@ time_wait: "3m"
 
 
 ######### Logs Configuration #########
-#Labels included in the application to filter device logs after testing
+#Labels/Tags to filter virtual devices logs
 
 log_tags: 
   - "HeatmapLog"
@@ -94,7 +94,4 @@ tests:
      mean:
         under: 2000
  - id: "GUI Performance"
-   type: "espresso"      
-   expect:
-     total_execution:
-        under: 200
+   type: "espresso"

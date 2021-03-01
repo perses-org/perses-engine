@@ -95,14 +95,16 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
         });
         parameters["number_devices"]=number_devices
 
-
-
-         var devices=parameters["number_devices"]
+        var devices=parameters["number_devices"]
         parameters["volume_size"]=Math.round(10 + (devices * 3))
+
         //AMI ID
-        parameters["ami_id"]= "ami-035966e8adab4aaad"
+        if(parameters["ami_id"]==null)
+          parameters["ami_id"]="ami-035966e8adab4aaad"
+
         //EC2 USERNAME
         parameters["ec2_username"]="ubuntu"
+        
         //End Port
         parameters["port"]=(6000+Number(parameters["number_devices"]))
 
