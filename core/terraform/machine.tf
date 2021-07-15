@@ -80,13 +80,6 @@ resource "aws_instance" "virtual_environment_perses" {
     ]
   }
 
-# provisioner "local-exec" {
-#     when    = destroy
-#     command = "ssh -o StrictHostKeyChecking=no -i ${(var.key_path)} ${(var.ec2_username)}@${(self.public_ip)} bash ./scripts/getLogs.sh ${(var.number_devices)} ${(var.application_id)} && scp -i ${(var.key_path)} -r ${(var.ec2_username)}@${(self.public_ip)}:devices-logs/ logs/ && node filterLogs.js ${(var.number_devices)}"
-#     on_failure = continue
-#   }
-
-
   tags = {
     Name = var.project_name
   }
