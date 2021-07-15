@@ -50,7 +50,7 @@ else
 fi
 
 bash ./scripts/executeApk.sh $1 $2
-sleep 30
+sleep 1m
 
 
 

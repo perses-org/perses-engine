@@ -39,4 +39,4 @@ fi
 
 echo "Finish execute devices."
 
-sleep 30
+sleep 1m
