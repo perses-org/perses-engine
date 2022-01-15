@@ -24,13 +24,24 @@ then
 		for i in $(seq 1 $1); do
 			echo "Starting UI test on android-"$i
 			var=$(($i+1))
-			adb connect 172.17.0.$var
-			OUTPUT=$(adb -s 172.17.0.$var shell pm list instrumentation 2>&1)
+			#adb connect 172.17.0.$var
+			kathara exec -d ./lab device$i -- adb connect localhost
+			
+			OUTPUT=$(kathara exec -d ./lab device$i -- adb -s localhost shell pm list instrumentation 2>&1)
+			
+			
 			if [[ $OUTPUT == *"androidx"* ]]; then
-				nohup adb -s 172.17.0.$var shell am instrument -w -r -e debug false $2.test/androidx.test.runner.AndroidJUnitRunner > ./devices-logs/espresso/android$i-UI-tests_result.txt &
+				nohup kathara exec -d ./lab device$i -- adb -s localhost shell am instrument -w -r -e debug false $2.test/androidx.test.runner.AndroidJUnitRunner > ./devices-logs/espresso/android$i-UI-tests_result.txt &
 			else
-				nohup adb -s 172.17.0.$var shell am instrument -w -r -e debug false $2.test/android.support.test.AndroidJUnitRunner > ./devices-logs/espresso/android$i-UI-tests_result.txt &
+				nohup kathara exec -d ./lab device$i -- adb -s localhost shell am instrument -w -r -e debug false $2.test/android.support.test.AndroidJUnitRunner > ./devices-logs/espresso/android$i-UI-tests_result.txt &
 			fi
+
+			# if [[ $OUTPUT == *"androidx"* ]]; then
+			# 	nohup adb -s 172.17.0.$var shell am instrument -w -r -e debug false $2.test/androidx.test.runner.AndroidJUnitRunner > ./devices-logs/espresso/android$i-UI-tests_result.txt &
+			# else
+			# 	nohup adb -s 172.17.0.$var shell am instrument -w -r -e debug false $2.test/android.support.test.AndroidJUnitRunner > ./devices-logs/espresso/android$i-UI-tests_result.txt &
+			# fi
+
 
 		done
 

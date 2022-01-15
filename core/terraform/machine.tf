@@ -62,6 +62,11 @@ resource "aws_instance" "virtual_environment_perses" {
       "sudo apt --assume-yes install docker.io",
       "sudo systemctl start docker",
       "sudo systemctl enable docker",
+      "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 21805A48E6CBBA6B991ABE76646193862B759810",
+	    "sudo add-apt-repository ppa:katharaframework/kathara -y",
+	    "sudo apt --assume-yes update",
+	    "sudo apt --assume-yes install kathara",
+      "sudo apt --assume-yes install xterm",
       "sudo apt-get --assume-yes install android-tools-adb android-tools-fastboot",
       "sudo apt  --assume-yes install curl",
       "curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -",
@@ -71,10 +76,15 @@ resource "aws_instance" "virtual_environment_perses" {
     ]
   }
 
-  provisioner "remote-exec" {
+
+
+    provisioner "remote-exec" {
     inline = [
-      "node ./scripts/createAndroidDevices.js",
-      "bash ./scripts/startAndroids.sh ${(var.number_devices)}",
+      "bash ./scripts/createNetwork.sh ${(var.number_devices)}",
+      "node ./scripts/configNetwork.js ",
+      "bash ./scripts/configDevices.sh ${(var.number_devices)} ${(var.delay)}",
+      "sudo cp -r apk lab/shared/",
+      "sudo bash ./scripts/startVE.sh",
       "bash ./scripts/installApk.sh ${(var.number_devices)} ${(var.time_wait)}",
       "bash ./scripts/executeApk.sh ${(var.number_devices)} ${(var.application_id)}"
     ]

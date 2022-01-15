@@ -112,5 +112,12 @@ variable "time_wait"{
   default     = "{{time_wait}}"
 }
 
+variable "delay"{
+  description = "Delay depending on which type of network is to be emulated (100ms, 1s, 2us...)"
+  type        = string
+  default     = "{{delay}}"
+}
+
+
 
 

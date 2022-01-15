@@ -96,7 +96,7 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
         parameters["number_devices"]=number_devices
 
         var devices=parameters["number_devices"]
-        parameters["volume_size"]=Math.round(10 + (devices * 3))
+        parameters["volume_size"]=Math.round(40 + (devices * 6))
 
         //AMI ID
         if(parameters["ami_id"]==null)
@@ -427,6 +427,7 @@ function checkPerformanceTests (tests){
 
         }
       });
+      
     }
 
     

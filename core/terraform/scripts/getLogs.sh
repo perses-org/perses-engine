@@ -16,9 +16,13 @@ then
 
 	for i in $(seq 1 $1); do
 		echo "Obtaining Logs from android-"$i
-		var=$(($i+1))
-		adb connect 172.17.0.$var
-		adb -s 172.17.0.$var logcat $2:D -d > ./devices-logs/log-android$i.txt 
+
+		kathara exec -d ./lab device$i -- adb connect localhost
+		kathara exec -d ./lab device$i -- adb -s localhost logcat $2:D -d > ./devices-logs/log-android$i.txt 
+		
+		
+		#adb connect 172.17.0.$var
+		#adb -s 172.17.0.$var logcat $2:D -d > ./devices-logs/log-android$i.txt 
 		echo "Logs obtained correctly from android-"$i
 
 	done

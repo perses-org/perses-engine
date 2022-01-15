@@ -7,35 +7,32 @@
 # $1: Number of devices and IP reference.
 # $2: Waiting time before installing the application.
 
-APK=./apk/app.apk
-APK_TEST=./apk/app_test.apk
+
+APK=/shared/app.apk
+APK_TEST=/shared/app_test.apk
 
 sleep $2
 
 	if [ $1 -gt 0 ]
 	then
-		for i in $(seq 1 2); do
-			for i in $(seq 1 $1); do
-				var=$(($i+1))
-				adb connect 172.17.0.$var
-				
-			done
 
-			for i in $(seq 1 $1); do
-				var=$(($i+1))
-				adb connect 172.17.0.$var
-				echo "Install apk on android-"$i
-				adb -s 172.17.0.$var install -t -g $APK
-				
+		for i in $(seq 1 $1); do
 
-				if [ -f "$APK_TEST" ]; then
-					echo "Install apk test on android-"$i
-					adb -s 172.17.0.$var install -t -g $APK_TEST
-					
-				fi
-			done
+			echo "Install apk on android-"$i
+
+			kathara exec -d ./lab device$i -- adb connect localhost
+			kathara exec -d ./lab device$i -- adb -s localhost install -t -g $APK
+
+			if [ -f "$APK_TEST" ]; then
+				echo "Install apk test on android-"$i
+				
+				kathara exec -d ./lab device$i -- adb -s localhost install -t -g $APK_TEST
+				
+			fi
+
 		done
+	
 	else
-		echo "Introduce un numero mayor que 0"
+		echo "$ 1.-Number of devices. 2.- Waiting time before installing the application"
 	fi
 

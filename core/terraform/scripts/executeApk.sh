@@ -23,10 +23,13 @@ then
 	for i in $(seq 1 2); do
 		for i in $(seq 1 $1); do
 			echo "Start... apk on android-"$i
-			var=$(($i+1))
-			adb connect 172.17.0.$var
-			# adb -s 172.17.0.$var shell monkey -p $2 -c android.intent.category.LAUNCHER 1
-			adb -s 172.17.0.$var shell am start -n $2/.MainActivity -e param S2_User$i -e device Device$i
+	
+
+			kathara exec -d ./lab device$i -- adb connect localhost
+			kathara exec -d ./lab device$i -- adb -s localhost shell monkey -p $2 -c android.intent.category.LAUNCHER 1
+			#kathara exec -d ./lab device$i -- adb -s localhost shell am start -n $2/.MainActivity
+
+
 			echo "Execute apk on android-"$i
 		done
 	done
