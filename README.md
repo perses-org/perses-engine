@@ -100,6 +100,8 @@ Perses can be integrated with a devops cycle with the help of [GHA](https://gith
 - 18 min for 50 devices
 - 25 min for 60 devices (max devices)
 
+***
+
 # Troubleshooting
 
 ## Permissions for terraform.pem are too open
@@ -129,3 +131,23 @@ If you encounter an error indicating that 'permissions for terraform.pem are too
 11. Back in the Properties window, click "Apply," and then click "OK" to confirm the changes. 
 
 Your terraform.pem file should now have the appropriate permissions configured. 
+
+## ·'\r': command not found aws_instance.virtual_environment_perses (remote-exec)
+
+When using Windows systems, there might be problems with end of line characters. This is because Windows uses CRLF (Carriage Return (ASCII 13, \r) Line Feed (ASCII 10, \n)) to note the termination of a line, in contrast to Linux/UNIX, where a LF is only required.
+
+As this project makes use of .sh files, when CRLF end of line format is used, this causes the terminal to read unexisting $’\r’, which makes the scripts fail to execute correctly.
+
+To avoid that when using Windows OS, you can convert CRLF to LF in .sh files with Notepad++ (https://notepad-plus-plus.org/downloads/) by following the next steps:
+
+1. Download Notepad++
+2. Open Notepad++
+3. Open all the .sh files with Notepad++
+4. Go to Edit -> EOL Conversion -> Unix (LF)
+5. Update the files on your project
+
+**Note:** it is important to follow the previous steps before using the next perses command:
+
+**node index.js -a setup -g test/configExample.yaml -c test/credentialExample.yaml -n projectName**
+
+Otherwise, the future launch will have problems. 
