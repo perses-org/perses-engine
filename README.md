@@ -132,7 +132,7 @@ If you encounter an error indicating that 'permissions for terraform.pem are too
 
 Your terraform.pem file should now have the appropriate permissions configured. 
 
-## ·'\r': command not found aws_instance.virtual_environment_perses (remote-exec)
+## $'\r': command not found aws_instance.virtual_environment_perses (remote-exec)
 
 When using Windows systems, there might be problems with end of line characters. This is because Windows uses CRLF (Carriage Return (ASCII 13, \r) Line Feed (ASCII 10, \n)) to note the termination of a line, in contrast to Linux/UNIX, where a LF is only required.
 
