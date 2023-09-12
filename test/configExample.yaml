@@ -57,7 +57,7 @@ devices:
       ram: "4g"
 
 
-#Application Id of Android App (can find it in the 'build.graddle' file of the application).
+#Application Id of Android App (can find it in the 'build.graddle' file inside the /app folder of the application).
 application_id: "com.spilab.heatmapv3"
 
 #Time to wait for the deployment of Android devices (1m '1 minute', 1h '1 hour')
