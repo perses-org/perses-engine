@@ -99,3 +99,33 @@ Perses can be integrated with a devops cycle with the help of [GHA](https://gith
 - 9 min for 32 devices
 - 18 min for 50 devices
 - 25 min for 60 devices (max devices)
+
+# Troubleshooting
+
+## Permissions for terraform.pem are too open
+
+If you encounter an error indicating that 'permissions for terraform.pem are too open,' please follow the appropriate steps to resolve it based on your operating system. These steps are also detailed in this [video](https://www.youtube.com/watch?v=mrUqITjUhL8&ab_channel=The_Sudo). 
+
+### For Linux: 
+
+1. Open your terminal. 
+2. Navigate to the directory containing the terraform.pem file. 
+3. Run the following command to modify the file permissions: 
+
+```chmod 400 ./terraform.pem``` 
+
+### For Windows: 
+
+1. Locate the terraform.pem file in your file explorer. 
+2. Right-click on the terraform.pem file and select "Properties." 
+3. In the Properties window, navigate to the "Security" tab. 
+4. Click on the "Advanced" button. 
+5. In the Advanced Security Settings window, click on "Disable inheritance" and “Remove all inherited permissions from this object”. 
+6. Click the "Add" button. 
+7. In the "Select a Principal" window, type your system user's name and click "Check Names" to ensure it's recognized. 
+8. Click "OK" to confirm. 
+9. In the permissions window, make sure to grant only "Read" and "Read & Execute" permissions. 
+10. Click "OK" to save the changes. 
+11. Back in the Properties window, click "Apply," and then click "OK" to confirm the changes. 
+
+Your terraform.pem file should now have the appropriate permissions configured. 
