@@ -50,7 +50,7 @@ Usage: `node index -a action -g <config.yaml> -c <credentials.yaml> -n projectNa
 **Where : action = setup | launch | tests | getLogs | destroy** 
 
 ### Setup project
-` node index.js -a setup -g test/configExample.yaml -c test/credentialsExample.yaml -n projectName `
+` node index.js -a setup -g test/configExample.yaml -c test/credentialExample.yaml -n projectName `
 
 
 ### Launch project
