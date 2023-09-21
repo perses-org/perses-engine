@@ -84,6 +84,7 @@ resource "aws_instance" "virtual_environment_perses" {
       "node ./scripts/configNetwork.js ",
       "bash ./scripts/configDevices.sh ${(var.number_devices)} ${(var.delay)}",
       "sudo cp -r apk lab/shared/",
+      "sudo docker system prune -f",
       "sudo bash ./scripts/startVE.sh",
       "bash ./scripts/installApk.sh ${(var.number_devices)} ${(var.time_wait)}",
       "bash ./scripts/executeApk.sh ${(var.number_devices)} ${(var.application_id)}"
