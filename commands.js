@@ -18,6 +18,10 @@ const logTemplate = fs.readFileSync(path.join(__dirname, './templates/filterLogs
 
 /*  <<<<<<<<<<<  MAIN FUNCTIONS >>>>>>>>>>    */
 
+exports.prueba = function(projectName){
+  
+}
+
 exports.setupPerses = function(credentialsFileName, configFileName, projectName){
   console.log("  - Config File: '" + configFileName + "'");
   console.log("  - Credentials File: '" + credentialsFileName + "'");
@@ -88,11 +92,15 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
           if(setDevices.type == "mobile"){
             for (let step = 0; step < setDevices.devices; step++) {
               number_devices++;
-              console.log("Deviceee "+number_devices)
+              console.log("Device "+number_devices)
             }
           }
 
         });
+        //At least one device is launched
+        if(number_devices<1){
+          number_devices=1;
+        }
         parameters["number_devices"]=number_devices
 
         var devices=parameters["number_devices"]
@@ -100,7 +108,7 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
 
         //AMI ID
         if(parameters["ami_id"]==null)
-          parameters["ami_id"]="ami-035966e8adab4aaad"
+          parameters["ami_id"]="ami-0136ddddd07f0584f"
 
         //EC2 USERNAME
         parameters["ec2_username"]="ubuntu"
@@ -119,22 +127,36 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
           
           if (err){
             console.log("Error: "+err);
+            console.log("Project folder could not be created...")
             throw err;
           }else {
 
+            try{
             //Generates variable files for Terraform
             fs.writeFileSync(path.join(__dirname,'projects',projectName,'variables.tf'), output, 'utf8');
             
             //Generates the script to later filter the logs with the tags defined in the configuration file
             fs.writeFileSync(path.join(__dirname,'projects',projectName,'filterLogs.js'), outputLog, 'utf8');
 
+            //Generates the file for the tests configuration
             fs.writeFileSync(path.join(__dirname,'projects',projectName,'perses-tests.yaml'), yaml.safeDump(tests), 'utf8');
+            }
+            catch(err){
+              console.log("An error has apeared at trying to generate files...");
+              console.error(err);
+              removeProjectFolder(projectName);
+            }
+
+            
          
            
             //Copy the scripts and other files to the project folder
             fs.copy(path.join(__dirname,'core','terraform'), path.join(__dirname,'projects',projectName), function (err) {
-              if (err) 
+              if (err){
+                console.log("Error copying the scripts and other files to the project folder...")
+                removeProjectFolder(projectName);
                 return console.log(err)
+              }
               else{
                 try {
                       //Init Terraform
@@ -152,19 +174,21 @@ exports.setupPerses = function(credentialsFileName, configFileName, projectName)
                 
                 } catch (err){
                       console.error(err);
+                      removeProjectFolder(projectName);
                 };
               }
             });
             
-
+            //Generate the folder for the project logs
             fs.mkdir(path.join(__dirname,'projects',projectName,'logs'), { recursive: true }, (err) => {
           
               if (err){
-                console.log("Error: "+err);
+                console.log("Error creating the logs: "+err);
+                removeProjectFolder(projectName);
                 throw err;
-              }else {
-              
-              }});
+              }
+            }
+          );
           }
         });
         } 
@@ -180,7 +204,7 @@ exports.launchPerses = function(projectName){
   
   console.log("  - ProjectName: '" + projectName + "'");
     if (fs.existsSync(path.join(__dirname,'projects',projectName))) {
-      console.log("Launch...");
+      console.log("Launching...");
       try {
             //Starts Terraform
             const terraform = spawn('terraform plan && terraform apply -auto-approve', { shell : true , cwd: path.join(__dirname,'projects',projectName)});
@@ -193,7 +217,10 @@ exports.launchPerses = function(projectName){
             });
       
         } catch (err){
+          console.log("The following error has occured:")
           console.error(err);
+          console.log("Destroying Perses infrastructure");
+          destroyPerses(projectName);
         };
     }else
       console.log("The project does not exist")
@@ -330,6 +357,24 @@ exports.destroyPerses = function(projectName){
 /*  <<<<<<<<<<<  EXTRA FUNCTIONS >>>>>>>>>>    */      
 
 /*
+ * <<<< removeProjectFolder >>>>
+ * This function deletes the actual project folder if an error appears.
+ */
+function removeProjectFolder(projectName){
+  
+  if (fs.existsSync(path.join(__dirname,'projects',projectName)))
+    fs.rmdirSync(path.join(__dirname,'projects',projectName), { recursive: true }, (err) => {
+      
+    if (err){
+      console.log("The following error appeared trying to delete the project: \n"+err);
+      throw err;
+    }else {
+      console.log("The project folder has been deleted successfully")
+    }
+  });
+}
+
+/*
  * <<<< checkUITests >>>>
  * This function checks for UI tests.
  */
@@ -429,6 +474,8 @@ function checkPerformanceTests (tests){
       });
       
     }
+
+    
 
     
   
