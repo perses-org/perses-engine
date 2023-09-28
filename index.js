@@ -13,7 +13,7 @@ program
 
 
 program
-  .requiredOption('-a, --persesAction <action>', 'actions = setup | launch | tests | getLogs | destroy ')
+  .requiredOption('-a, --persesAction <action>', 'actions = setup | launch | tests | getLogs | destroy | prueba')
   .option('-c, --credentialsFileName <filepath>', 'credentials file path')
   .option('-g, --configFileName <filepath>', 'configuration project file path')
   .requiredOption('-n, --projectName <name>', 'project name')
@@ -41,6 +41,10 @@ program
           
       case 'destroy':
           perses.destroyPerses(options.projectName)
+        break;
+
+      case 'prueba':
+          perses.prueba(options.projectName)
         break;
             
       default:
