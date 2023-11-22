@@ -27,20 +27,12 @@ then
 			#adb connect 172.17.0.$var
 			kathara exec -d ./lab device$i -- adb connect localhost
 			
-			# Crear el archivo depurar.txt
-			touch depurar.txt
-			
-			# Ejecutar los comandos y escribir en el archivo depurar.txt
-			echo "$(ls -l /shared)" > depurar.txt
-			echo "$(ls -l ./apk)" >> depurar.txt
 			
 			OUTPUT=$(kathara exec -d ./lab device$i -- adb -s localhost shell pm list instrumentation 2>&1)
 			
 			if [[ $OUTPUT == *"androidx"* ]]; then
-			    echo "Pasa por el if. Valor de \$2: $2" >> depurar.txt
 			    nohup kathara exec -d ./lab device$i -- adb -s localhost shell am instrument -w -r -e debug false $2.test/androidx.test.runner.AndroidJUnitRunner > ./devices-logs/espresso/android$i-UI-tests_result.txt &
 			else
-			    echo "Pasa por el else. Valor de \$2: $2" >> depurar.txt
 			    nohup kathara exec -d ./lab device$i -- adb -s localhost shell am instrument -w -r -e debug false $2.test/android.support.test.AndroidJUnitRunner > ./devices-logs/espresso/android$i-UI-tests_result.txt &
 			fi
 
