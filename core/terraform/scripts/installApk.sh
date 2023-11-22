@@ -21,9 +21,9 @@ sleep $2
 			echo "Install apk on android-"$i
 
 			kathara exec -d ./lab device$i -- adb connect localhost
-			kathara exec -d ./lab device$i -- adb -s localhost install -t -g $APK
+			kathara exec -d ./lab device$i -- adb -s localhost install -r $APK
 
-			if [ -f "$APK_TEST" ]; then
+			if [ -f "/home/ubuntu/lab/shared/app_test.apk" ]; then
 				echo "Install apk test on android-"$i
 				
 				kathara exec -d ./lab device$i -- adb -s localhost install -t -g $APK_TEST
@@ -35,4 +35,3 @@ sleep $2
 	else
 		echo "$ 1.-Number of devices. 2.- Waiting time before installing the application"
 	fi
-
